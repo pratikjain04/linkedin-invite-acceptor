@@ -1,6 +1,6 @@
 {
   "name": "linkedin-invite-acceptor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Smart Chrome extension for automating LinkedIn invitation acceptance with intelligent rate limiting",
   "license": "MIT",
   "author": "Pratik Jain",

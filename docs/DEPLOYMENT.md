@@ -58,7 +58,7 @@ Ensure your `manifest.json` follows this template:
 {
   "manifest_version": 3,
   "name": "LinkedIn Invite Acceptor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Smart automation for accepting LinkedIn invitations with intelligent rate limiting",
   "permissions": [
     "storage",
@@ -509,7 +509,7 @@ Track issues for future versions:
 {
   "manifest_version": 3,
   "name": "LinkedIn Invite Acceptor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Smart automation for accepting LinkedIn invitations with intelligent rate limiting",
   
   "permissions": [

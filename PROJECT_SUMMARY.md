@@ -477,7 +477,7 @@ Document should include:
 
 ## Version History
 
-### v1.0.0 (Current - January 2026)
+### v1.0.1 (Current - January 2026)
 - ✅ Core automation functionality
 - ✅ Configurable rate limiting
 - ✅ Beautiful, responsive UI

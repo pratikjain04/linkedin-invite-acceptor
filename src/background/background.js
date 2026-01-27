@@ -57,13 +57,38 @@ const ConfigManager = {
   },
 };
 
-// Fallback RateLimiter
+// Persistent RateLimiter with Chrome Storage
 const RateLimiter = class {
   constructor(delayInterval, hourlyLimit) {
     this.delayInterval = delayInterval;
     this.hourlyLimit = hourlyLimit;
     this.acceptTimes = [];
     this.lastAcceptTime = 0;
+  }
+
+  // Load persisted rate limit data from Chrome storage
+  async loadFromStorage() {
+    return new Promise((resolve) => {
+      chrome.storage.local.get(['acceptTimes', 'lastAcceptTime'], (result) => {
+        this.acceptTimes = result.acceptTimes || [];
+        this.lastAcceptTime = result.lastAcceptTime || 0;
+        logger.log('Rate limiter state loaded from storage:', {
+          acceptTimesCount: this.acceptTimes.length,
+          lastAcceptTime: this.lastAcceptTime,
+        });
+        resolve();
+      });
+    });
+  }
+
+  // Save rate limit data to Chrome storage (persistent)
+  async saveToStorage() {
+    return new Promise((resolve) => {
+      chrome.storage.local.set({
+        acceptTimes: this.acceptTimes,
+        lastAcceptTime: this.lastAcceptTime,
+      }, resolve);
+    });
   }
 
   canAccept() {
@@ -79,16 +104,18 @@ const RateLimiter = class {
       };
     }
 
-    // Check hourly limit
+    // Check hourly limit (filter accepts from last hour)
     const oneHourAgo = now - 3600000;
     const acceptsThisHour = this.acceptTimes.filter(t => t > oneHourAgo).length;
 
     if (acceptsThisHour >= this.hourlyLimit) {
-      const oldestAccept = Math.min(...this.acceptTimes.filter(t => t > oneHourAgo));
+      // Find oldest accept in the hour window
+      const acceptsInWindow = this.acceptTimes.filter(t => t > oneHourAgo);
+      const oldestAccept = acceptsInWindow.length > 0 ? Math.min(...acceptsInWindow) : now;
       const timeUntilReset = oldestAccept + 3600000 - now;
       return {
         ready: false,
-        delay: timeUntilReset,
+        delay: Math.max(0, timeUntilReset),
         reason: `Hourly limit reached (${acceptsThisHour}/${this.hourlyLimit})`,
       };
     }
@@ -96,9 +123,18 @@ const RateLimiter = class {
     return { ready: true, delay: 0, reason: 'Ready to accept' };
   }
 
-  recordAccept() {
-    this.lastAcceptTime = Date.now();
-    this.acceptTimes.push(Date.now());
+  async recordAccept() {
+    const now = Date.now();
+    this.lastAcceptTime = now;
+    this.acceptTimes.push(now);
+    
+    // Clean up old entries (older than 2 hours)
+    const twoHoursAgo = now - 7200000;
+    this.acceptTimes = this.acceptTimes.filter(t => t > twoHoursAgo);
+    
+    // Persist to storage immediately
+    await this.saveToStorage();
+    logger.log('Accept recorded and persisted. Total today:', this.acceptTimes.length);
   }
 
   setDelayInterval(delay) {
@@ -119,12 +155,15 @@ const RateLimiter = class {
       remainingQuota: Math.max(0, this.hourlyLimit - acceptsThisHour),
       hourlyLimit: this.hourlyLimit,
       delayInterval: this.delayInterval,
+      totalAccepts: this.acceptTimes.length,
     };
   }
 
-  resetStats() {
+  async resetStats() {
     this.acceptTimes = [];
     this.lastAcceptTime = 0;
+    await this.saveToStorage();
+    logger.log('Rate limiter stats reset');
   }
 };
 
@@ -249,6 +288,9 @@ class BackgroundController {
       this.config.hourlyLimit
     );
 
+    // Load persisted rate limiter state from Chrome storage
+    await this.rateLimiter.loadFromStorage();
+
     // Update config in storage
     this.config.isRunning = true;
     this.config.sessionStartTime = this.sessionStartTime;
@@ -343,7 +385,8 @@ class BackgroundController {
         const result = await this.acceptInvitation(activeTab.id);
 
         if (result.success) {
-          this.rateLimiter.recordAccept();
+          // Record accept and persist to storage
+          await this.rateLimiter.recordAccept();
           this.config.totalAccepted++;
           this.config.hourlyAccepted++;
           await ConfigManager.updateConfig('totalAccepted', this.config.totalAccepted);

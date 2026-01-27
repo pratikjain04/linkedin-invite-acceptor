@@ -378,6 +378,6 @@ For issues or feature requests, open an issue on the GitHub repository.
 
 ---
 
-**Version**: 1.0.0  
+**Version**: 1.0.1  
 **Last Updated**: January 2026  
 **Author**: Pratik Jain

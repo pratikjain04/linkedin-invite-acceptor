@@ -402,7 +402,7 @@ Your LinkedIn Invite Acceptor extension is:
 
 ---
 
-**Version:** 1.0.0  
+**Version:** 1.0.1  
 **Created:** January 27, 2026  
 **Author:** Pratik Jain  
 **Status:** Production Ready

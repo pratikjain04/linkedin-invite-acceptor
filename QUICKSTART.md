@@ -202,5 +202,5 @@ Always have a way to contact LinkedIn support.
 
 ---
 
-Version: 1.0.0  
+Version: 1.0.1  
 Last Updated: January 2026
