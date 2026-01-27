@@ -1,0 +1,27 @@
+{
+  "name": "linkedin-invite-acceptor",
+  "version": "1.0.0",
+  "description": "Smart Chrome extension for automating LinkedIn invitation acceptance with intelligent rate limiting",
+  "license": "MIT",
+  "author": "Pratik Jain",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/linkedin-invite-acceptor"
+  },
+  "keywords": [
+    "linkedin",
+    "automation",
+    "chrome-extension",
+    "rate-limiting",
+    "invitations"
+  ],
+  "main": "manifest.json",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "create-icons": "python3 create_simple_icons.sh"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

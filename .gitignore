@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# OS
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+*.zip
+
+# Chrome extension specific
+*.pem
+*.crx
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+
+# Testing
+coverage/
+.nyc_output/
+
+# User-specific
+user-data/
+chrome-data/
+
+# Sensitive information
+secrets.json
+config.prod.json
+
+# BMAD related (development artifacts)
+.bmad-core/
+web-bundles/
+*.bmad
+.bmad/
+.github/
