@@ -144,7 +144,7 @@ Contributions welcome! Please:
 
 ## Version History
 
-### v1.0.1 (Initial Release)
+### v1.0.2 (Initial Release)
 - Core functionality for accepting invitations
 - Configurable rate limiting
 - Beautiful, responsive UI
@@ -176,4 +176,4 @@ MIT License - Feel free to use, modify, and distribute.
 **Disclaimer**: This extension is provided as-is. Users assume all responsibility for compliance with LinkedIn's terms of service and any account consequences. Always test carefully before wide-scale use.
 
 **Last Updated**: January 2026  
-**Version**: 1.0.1
+**Version**: 1.0.2

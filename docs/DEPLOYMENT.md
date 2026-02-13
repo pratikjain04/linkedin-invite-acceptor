@@ -58,7 +58,7 @@ Ensure your `manifest.json` follows this template:
 {
   "manifest_version": 3,
   "name": "LinkedIn Invite Acceptor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Smart automation for accepting LinkedIn invitations with intelligent rate limiting",
   "permissions": [
     "storage",
@@ -392,7 +392,7 @@ Once approved:
 1. Make code changes locally
 2. Increment version in `manifest.json`:
    ```json
-   "version": "1.0.1"
+   "version": "1.0.2"
    ```
 
 3. Create new .zip file with updated code
@@ -509,7 +509,7 @@ Track issues for future versions:
 {
   "manifest_version": 3,
   "name": "LinkedIn Invite Acceptor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Smart automation for accepting LinkedIn invitations with intelligent rate limiting",
   
   "permissions": [
